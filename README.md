@@ -1,3 +1,4 @@
 # tlv493d_microPython
-MicroPython versie van de Adafruit tvl493d library. 
-Met extra functie om tempratuur uit te lezen toegevoegd.
+MicroPython driver for the TLV493D sensor. Based on the [Adafruit circuitpython](https://github.com/adafruit/Adafruit_CircuitPython_TLV493D) library.
+
+

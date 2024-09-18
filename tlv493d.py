@@ -29,10 +29,10 @@ Implementation Notes
 """
 
 import struct
-from machine import I2C
+from machine import I2C # works with micropython
 from micropython import const
 
-try:
+try: # works with circuitpython
     from typing import Tuple
     from busio import I2C
 except ImportError:
@@ -111,7 +111,7 @@ class TLV493D:
     def __init__(
         self, i2c_bus: I2C, address: int = _TLV493D_DEFAULT_ADDRESS, addr_reg: int = 0
     ) -> None:
-        self.i2c_device = I2C(1, scl=Pin(7), sda=Pin(6), freq=400000)
+        self.i2c_device =  i2c_bus #I2C(1, scl=Pin(7), sda=Pin(6), freq=400000)
         self.read_buffer = bytearray(10)
         self.write_buffer = bytearray(4)
 
@@ -128,11 +128,11 @@ class TLV493D:
         self._write_i2c()
 
     def _read_i2c(self) -> None:
-        i2c.readfrom_into(_TLV493D_DEFAULT_ADDRESS, self.read_buffer)
+        self.i2c_device.readfrom_into(_TLV493D_DEFAULT_ADDRESS, self.read_buffer)
         # self.print_bytes(self.read_buffer)
 
     def _write_i2c(self) -> None:
-        i2c.writeto(_TLV493D_DEFAULT_ADDRESS, self.write_buffer)
+        self.i2c_device.writeto(_TLV493D_DEFAULT_ADDRESS, self.write_buffer)
 
     def _setup_write_buffer(self) -> None:
         self._read_i2c()
@@ -191,7 +191,7 @@ class TLV493D:
 if __name__ == "__main__":
     from machine import Pin, I2C
     import time
-    i2c = I2C(1, scl=Pin(7), sda=Pin(6), freq=400000)
+    i2c = I2C(0, scl=Pin(1), sda=Pin(0), freq=400000)
     tlv = TLV493D(i2c)
     print(tlv.temperture())
     while True:
