@@ -172,7 +172,7 @@ class TLV493D:
             self._unpack_and_scale(z_top, z_bot),
         )
 
-    def temperture(self) -> float:
+    def temperature(self) -> float:
         """Tempeture of the internal temperture sensor of the magnetometer in degrees Celcius."""
         self._read_i2c()  # update read registers
         T_raw1 = self._get_read_key("TEMP1")
@@ -193,7 +193,7 @@ if __name__ == "__main__":
     import time
     i2c = I2C(0, scl=Pin(1), sda=Pin(0), freq=400000)
     tlv = TLV493D(i2c)
-    print(tlv.temperture())
+    print(tlv.temperature())
     while True:
         print("X: %s, Y: %s, Z: %s uT" % tlv.magnetic)
         time.sleep(0.1)
